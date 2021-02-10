@@ -6,10 +6,7 @@ const SavedBooks = () => {
 
     return (
         <section>
-            <Banner>
-                <h1>(React) Google Books Search</h1>
-                <h3>Browse Save Books</h3>
-            </Banner>
+            <Banner />
             <BookContainer />
         </section>
     )
