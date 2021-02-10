@@ -9,9 +9,9 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  findById: function(req, res) {
+  findByFav: function(req, res) {
     db.Book
-      .findById(req.params.id)
+      .aggregate([{ $match: {enabled: true}}])
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

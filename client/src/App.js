@@ -4,6 +4,7 @@ import "./App.css";
 import Search from "./pages/Search";
 import SavedBooks from "./pages/SavedBooks";
 import Navbar from "./components/Navbar"
+import NotFound from "./pages/NotFound"
 
 const App= () =>  {
   
@@ -15,7 +16,7 @@ const App= () =>  {
             <Route exact path="/" component={Search} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/savedBooks" component={SavedBooks} />
-            {/* <Route component={NotFound} /> */}
+            <Route component={NotFound} /> 
           </Switch>
         </section>
       </Router>

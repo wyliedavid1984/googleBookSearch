@@ -10,11 +10,12 @@ const styles = {
 }
 
 const BookContainer = () => {
+    
     const location = useLocation();
-    console.log(location.pathname)
+
+    
     const findLocation = (location) =>{
-        console.log(location)
-        if (location === "/search"){
+        if (location === "/search" || location === "/"){
             return "Results"
         }else{
             return "Saved Books"

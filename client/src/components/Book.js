@@ -10,8 +10,8 @@ const Book = () => {
                     <p>author</p>
                 </section>
                 <section className="col-3" style={{display:"flex", justifyContent:"flex-end", height:"30%"}}>
-                    <button>hello</button>
-                    <button>hello</button>
+                    <button>View Synopsis</button>
+                    <button>Save</button>
                 </section>
             </section>
             <section>
