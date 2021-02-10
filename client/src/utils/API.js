@@ -3,9 +3,8 @@ import axios from "axios";
 export default {
 
     // Gets books from google api
-    getBooks: function(search) {
-        const userInput = {params: search}
-        return axios.get("/api/google" + userInput)
+    getBooks: function() {
+        return axios.get("/api/google", {params: { query:"?q=" + q }})
     },
     // Gets all books from db
     getDbBooks: function() {
