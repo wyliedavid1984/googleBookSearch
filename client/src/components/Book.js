@@ -1,18 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useLocation} from "react-router-dom";
 import API from "../utils/API"
 
 
 const Book = ({books}) => {
-    // const [book, setBook] = useState({
-    //     title:"",
-    //     subtitle: "",
-    //     authors: [],
-    //     description: "",
-    //     image: "",
-    //     link: "",
-    //     googleId: ""
-    // });
+    const [bookArr, setBookArr] = useState([]);
     const location = useLocation();
 
     const buttonSet = (location) => {  
@@ -24,10 +16,38 @@ const Book = ({books}) => {
     }
     
     function getAllBooks(location){
+        getSavedBooks();
         switch(location){
             
         case "/savedBooks":
-            getSavedBooks();
+            bookArr.map(book =>{
+            return(
+                <div key={book.googleId} className="border" style={{padding: "10px 10px"}}>
+                    <section style={{display:"flex"}}>
+                        <section className="col-9">
+                            <h4 >{book.title}</h4>
+                            <p >Written By: {book.authors}</p>
+                        </section>
+                        <section className="col-3" style={{display:"flex", justifyContent:"flex-end", height:"30%"}}>
+                            <button>
+                                <a href={book.infoLink} target="_blank" >More Info</a>
+                            </button>
+                            <button onClick={() =>{ location.pathname === "/savedBooks"? deleteBook(book.googleId) : saveBook(book.googleId) } }>
+                                {buttonSet(location.pathname)}
+                            </button>
+                        </section>
+                    </section>
+                    <section>
+                        <section style={{display:"flex"}}>
+                            < img className = "col-2"
+                            src={book.image ? book.image: "#"} alt = " Pic of the Book"  /> 
+                            <p className="col-10" >
+                                {book.description}
+                            </p>
+                        </section>
+                    </section>
+                </div>)
+            })
             break;
         case "/":
             return  ( books && books.map( book => {
@@ -94,35 +114,8 @@ const Book = ({books}) => {
     function getSavedBooks(){
         API.getDbBooks()
         .then(res => {
-            console.log(res.data)
-            // res.data.length>1 && res.data.map(book =>{
-            // return(
-            //     <div key={book.id} className="border" style={{padding: "10px 10px"}}>
-            //         <section style={{display:"flex"}}>
-            //             <section className="col-9">
-            //                 <h4 >{book.volumeInfo.title}</h4>
-            //                 <p >Written By: {book.volumeInfo.authors}</p>
-            //             </section>
-            //             <section className="col-3" style={{display:"flex", justifyContent:"flex-end", height:"30%"}}>
-            //                 <button>
-            //                     <a href={book.volumeInfo.infoLink} target="_blank" >More Info</a>
-            //                 </button>
-            //                 <button onClick={() =>{ location.pathname === "/savedBooks"? deleteBook(book.id) : saveBook(book.id) } }>
-            //                     {buttonSet(location.pathname)}
-            //                 </button>
-            //             </section>
-            //         </section>
-            //         <section>
-            //             <section style={{display:"flex"}}>
-            //                 < img className = "col-2"
-            //                 src={book.volumeInfo.imageLinks.thumbnail ? book.volumeInfo.imageLinks.thumbnail: "#"} alt = " Pic of the Book"  /> 
-            //                 <p className="col-10" >
-            //                     {book.volumeInfo.description}
-            //                 </p>
-            //             </section>
-            //         </section>
-            //     </div>)
-            // })
+            console.log(res.data, "in db Call");
+            setBookArr(res.data);
         })
     }
 
@@ -151,35 +144,7 @@ const Book = ({books}) => {
 
     return (
         <section className="border" style={{padding: "20px 10px"}}>
-            { books && books.map( book => {
-            return(
-            <div key={book.id} className="border" style={{padding: "10px 10px"}}>
-                <section style={{display:"flex"}}>
-                    <section className="col-9">
-                        <h4 >{book.volumeInfo.title}</h4>
-                        <p >Written By: {book.volumeInfo.authors}</p>
-                    </section>
-                    <section className="col-3" style={{display:"flex", justifyContent:"flex-end", height:"30%"}}>
-                        <button>
-                            <a href={book.volumeInfo.infoLink} target="_blank" rel="noopener noreferrer">More Info</a>
-                        </button>
-                        <button onClick={() =>{ location.pathname === "/savedBooks"? deleteBook(book.id) : saveBook(book.id) } }>
-                            {buttonSet(location.pathname)}
-                        </button>
-                    </section>
-                </section>
-                <section>
-                    <section style={{display:"flex"}}>
-                        < img className = "col-2"
-                        src={book.volumeInfo.imageLinks.thumbnail ? book.volumeInfo.imageLinks.thumbnail: "#"} alt = " Pic of the Book"  /> 
-                        <p className="col-10" >
-                            {book.volumeInfo.description}
-                        </p>
-                    </section>
-                </section>
-            </div>)}
-            )};
-            {/* {getAllBooks(location.pathname)} */}
+            {getAllBooks(location.pathname)}
         </section>
     )
 }
