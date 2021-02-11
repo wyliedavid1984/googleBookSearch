@@ -16,7 +16,6 @@ const Book = ({books}) => {
     }
     
     function getAllBooks(location){
-        getSavedBooks();
         switch(location){
             
         case "/savedBooks":
