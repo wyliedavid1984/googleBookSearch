@@ -8,18 +8,29 @@ const Search = () => {
     const [bookSearch, setBookSearch] = useState("");
     const searchRef = useRef();
 
-    const handleInputChange = event => {
-        // de-structure 
-        const { value } = event.target;
-        // Update the appropriate state
-        setBookSearch(value);
+    function loadBooks() {
+        API.getBooks()
+        .then(res => {
+            console.log(res.data.items.volumeInfo) 
+            setBooks(res.data)
+        })
+        .catch(err => console.log(err));
     };
-    // form submission
+
+     const handleInputChange = event => {
+         // Destructure the name and value properties off of event.target
+         // Update the appropriate state
+         const { value } = event.target;
+         setBookSearch(value);
+     };
+
     function handleFormSubmit(event) {
         event.preventDefault();
-        // api to google to get books matching search, limit 10
+    
+        // API.getBooksFrontEnd(bookSearch)
         API.getBooksFrontEnd(bookSearch)
         .then(res => { 
+            console.log(res.data)
             setBooks(res.data.items)
         })
         .catch(err => console.log(err));

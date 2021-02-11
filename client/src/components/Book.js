@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useLocation} from "react-router-dom";
 import API from "../utils/API"
 
@@ -14,12 +14,18 @@ const Book = ({books}) => {
             return "Save"
         }
     }
-    
+
+    useEffect(() => {
+        getSavedBooks()
+    }, [])
+
     function getAllBooks(location){
+        console.log(bookArr)
         switch(location){
             
         case "/savedBooks":
-            bookArr.map(book =>{
+            if(bookArr){
+               return bookArr.map(book =>{
             return(
                 <div key={book.googleId} className="border" style={{padding: "10px 10px"}}>
                     <section style={{display:"flex"}}>
@@ -47,6 +53,7 @@ const Book = ({books}) => {
                     </section>
                 </div>)
             })
+        }
             break;
         case "/":
             return  ( books && books.map( book => {
@@ -108,8 +115,9 @@ const Book = ({books}) => {
             ))
         default:
             break;
+        }
     }
-}
+
     function getSavedBooks(){
         API.getDbBooks()
         .then(res => {
@@ -147,6 +155,5 @@ const Book = ({books}) => {
         </section>
     )
 }
-
 
 export default Book

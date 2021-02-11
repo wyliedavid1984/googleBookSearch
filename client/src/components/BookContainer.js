@@ -10,7 +10,7 @@ const styles = {
 }
 
 const BookContainer = ({books}) => {
-    
+    console.log(books)
     const location = useLocation();
 
     const titleSet = (location) =>{
