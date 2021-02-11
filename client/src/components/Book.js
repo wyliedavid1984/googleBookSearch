@@ -35,7 +35,7 @@ const Book = ({books}) => {
                         </section>
                         <section className="col-3" style={{display:"flex", justifyContent:"flex-end", height:"30%"}}>
                             <button>
-                                <a href={book.infoLink} target="_blank" >More Info</a>
+                                <a href={book.infoLink} target="_blank" rel="noopener noreferrer">More Info</a>
                             </button>
                             <button onClick={() =>{ location.pathname === "/savedBooks"? deleteBook(book.googleId) : saveBook(book.googleId) } }>
                                 {buttonSet(location.pathname)}
