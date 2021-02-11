@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useRef} from 'react'
 import Banner from '../components/Banner'
 import BookContainer from '../components/BookContainer'
 import API from "../utils/API"
@@ -8,29 +8,16 @@ const Search = () => {
     const [bookSearch, setBookSearch] = useState("");
     const searchRef = useRef();
 
-    useEffect(() => {
-        loadBooks()
-    }, [])
-
-    function loadBooks() {
-        API.getBooks()
-        .then(res => {
-            console.log(res.data.items.volumeInfo) 
-            setBooks(res.data)
-        })
-        .catch(err => console.log(err));
+    const handleInputChange = event => {
+        // de-structure 
+        const { value } = event.target;
+        // Update the appropriate state
+        setBookSearch(value);
     };
-
-     const handleInputChange = event => {
-         // Destructure the name and value properties off of event.target
-         // Update the appropriate state
-         const { value } = event.target;
-         setBookSearch(value);
-     };
-
+    // form submission
     function handleFormSubmit(event) {
         event.preventDefault();
-    
+        // api to google to get books matching search, limit 10
         API.getBooksFrontEnd(bookSearch)
         .then(res => { 
             setBooks(res.data.items)

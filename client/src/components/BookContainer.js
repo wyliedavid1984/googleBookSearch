@@ -10,11 +10,10 @@ const styles = {
 }
 
 const BookContainer = ({books}) => {
-    console.log(books)
+    
     const location = useLocation();
 
-    
-    const findLocation = (location) =>{
+    const titleSet = (location) =>{
         if (location === "/search" || location === "/"){
             return "Results"
         }else{
@@ -24,7 +23,8 @@ const BookContainer = ({books}) => {
     
     return (
         <section style={styles.container} className="border">
-            <h4>{findLocation(location.pathname)}</h4>
+            <h4>{titleSet(location.pathname)}</h4>
+            {/* map through data here or next level down? */}
             <section>
                 <Book books={books} />
             </section>
