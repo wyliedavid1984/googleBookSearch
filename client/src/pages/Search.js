@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import Banner from '../components/Banner'
 import BookContainer from '../components/BookContainer'
 import API from "../utils/API"
@@ -6,6 +6,7 @@ import API from "../utils/API"
 const Search = () => {
     const [books, setBooks] = useState([])
     const [bookSearch, setBookSearch] = useState("");
+    const searchRef = useRef();
 
     useEffect(() => {
         loadBooks()
@@ -23,9 +24,7 @@ const Search = () => {
      const handleInputChange = event => {
          // Destructure the name and value properties off of event.target
          // Update the appropriate state
-         const {
-             value
-         } = event.target;
+         const { value } = event.target;
          setBookSearch(value);
      };
 
@@ -34,11 +33,11 @@ const Search = () => {
     
         API.getBooksFrontEnd(bookSearch)
         .then(res => { 
-            console.log(res.data.items)
             setBooks(res.data.items)
-            console.log(books)
         })
         .catch(err => console.log(err));
+
+        searchRef.current.value= "";
     };
 
     return (
@@ -50,6 +49,7 @@ const Search = () => {
                     <input
                       name="BookSearch"
                       value={bookSearch}
+                      ref={searchRef}
                       onChange={handleInputChange}
                       placeholder="Search For a Book"
                     />
@@ -61,13 +61,6 @@ const Search = () => {
                     </button>
                 </form>
             </div>
-            {books.map(book => {
-                return(
-                    <div value={book.id}>
-                        <p>{book.volumeInfo.title}</p>
-                    </div>
-                )
-            })}
             <BookContainer books={books} />        
         </div>
     )
