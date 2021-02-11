@@ -9,8 +9,8 @@ const styles = {
     } 
 }
 
-const BookContainer = () => {
-    
+const BookContainer = ({books}) => {
+    console.log(books)
     const location = useLocation();
 
     
@@ -26,8 +26,7 @@ const BookContainer = () => {
         <section style={styles.container} className="border">
             <h4>{findLocation(location.pathname)}</h4>
             <section>
-                <Book />
-                <Book />
+                <Book books={books} />
             </section>
         </section>
     )

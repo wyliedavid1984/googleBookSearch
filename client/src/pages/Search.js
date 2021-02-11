@@ -4,7 +4,7 @@ import BookContainer from '../components/BookContainer'
 import API from "../utils/API"
 
 const Search = () => {
-    const [books, setBooks] = useState([{}])
+    const [books, setBooks] = useState([])
     const [bookSearch, setBookSearch] = useState("");
 
     useEffect(() => {
@@ -13,9 +13,10 @@ const Search = () => {
 
     function loadBooks() {
         API.getBooks()
-        .then(res => 
+        .then(res => {
+            console.log(res.data.items.volumeInfo) 
             setBooks(res.data)
-        )
+        })
         .catch(err => console.log(err));
     };
 
@@ -31,10 +32,11 @@ const Search = () => {
     function handleFormSubmit(event) {
         event.preventDefault();
     
-        API.getBooks(bookSearch)
+        API.getBooksFrontEnd(bookSearch)
         .then(res => { 
-            console.log(res.data)
-            setBooks(res.data)
+            console.log(res.data.items)
+            setBooks(res.data.items)
+            console.log(books)
         })
         .catch(err => console.log(err));
     };
@@ -59,7 +61,14 @@ const Search = () => {
                     </button>
                 </form>
             </div>
-            <BookContainer />        
+            {books.map(book => {
+                return(
+                    <div value={book.id}>
+                        <p>{book.volumeInfo.title}</p>
+                    </div>
+                )
+            })}
+            <BookContainer books={books} />        
         </div>
     )
 }
